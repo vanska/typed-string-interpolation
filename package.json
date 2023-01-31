@@ -28,7 +28,7 @@
     "test:unit:types:watch": "jest -c jest.config.tsd.js --watch",
     "test": "npm run test:unit && npm run test:unit:types",
     "build": "tsup src/index.ts --format cjs,esm --dts",
-    "release": "npm run build && npx changeset publish"
+    "release": "npm run build && changeset publish"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
