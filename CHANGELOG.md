@@ -1,5 +1,11 @@
 # typed-string-interpolation
 
+## 0.0.5
+
+### Patch Changes
+
+- a04cb7e: Refine readme
+
 ## 0.0.4
 
 ### Patch Changes
