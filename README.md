@@ -1,4 +1,4 @@
-# Typed string interpolation
+# `typed-string-interpolation`
 
 [String interpolation](https://en.wikipedia.org/wiki/String_interpolation) utility that returns the correct type based on passed in variable substitutions.
 
@@ -8,15 +8,26 @@
 - Sanity checks that correct variables were passed in
 - Returns the correct type based on passed in variable substitutions
 - Options to customize return, pattern matching and sanity checking
-- Both `.cjs` and `mjs` distributions available. Use anywhere!
+- Both ES Module `.mjs` and CommonJS `.cjs` distributions available. Use anywhere!
+- Tiny footprint:
+  - ES Module: `0.462kB` (`773B` unpacked)
+  - CommonJS: `0.833B` (`1.75kB` unpacked)
 
-## Install
+## Motivation
+
+String interpolation/variable substitution (i.e. injecting variables within text) is a really common operation when building single and multilingual applications. Existing string interpolation utilities within the most used `i18n` / `l10n` packages like `i18next` and `formatjs` come with massive overhead while lacking thing like proper TypeScript infer support for the interpolation operation.
+
+This package aims to provide a high quality string interpolation "primitive" to use as is or within other localization frameworks and tooling.
+
+## Getting started
+
+### Install
 
 ```bash
 npm i typed-string-interpolation
 ```
 
-## Usage
+### Usage
 
 ```ts
 // ES module
@@ -59,14 +70,14 @@ If the string can be joined you'll get back a string. Otherwise a union type wit
 stringInterpolation("hello {{world}} with number {{number}}", {
   world: "world",
   number: 1,
-}) // => Returns type: string
+}) // : string
 ```
 
 ```tsx
 stringInterpolation("hello {{world}} with number {{number}}", {
   world: <span className="bold">world</span>,
   number: 1,
-}) // => Returns type: (string | JSX.Element | number)[]
+}) // : (string | JSX.Element | number)[]
 ```
 
 ## Options
@@ -97,7 +108,7 @@ stringInterpolation(
     number: 1,
   },
   { raw: true }
-) // => Returns type: (string | number)[]
+) // : (string | number)[]
 ```
 
 `pattern`
@@ -126,13 +137,20 @@ Turning of sanity checking removes `throw` from:
 
 ## Contributing
 
-API suggestions are welcome and greatly appreciated.
+Easiest way to contribute is to open new issues for API suggestions and fixes.
+
+### Contributing for a release
 
 Basic steps for contributing for a release:
 
-- Fork `main`
-- `npm ci`
-- Run tests `npm run test`
-- Create a changeset with `npx changeset`
+- Fork `main` on Github and clone fork locally
+- `npm ci` to install dependencies
+- Make changes while running tests
+  - Unit test in watch mode:
+    - `npm run test:unit:watch`
+  - Unit test for types in watch mode:
+    - `npm run test:unit:types:watch`
+- Once all changes are complete create a new release with changeset
+  - `npm run changeset`
 - Commit and push changes
-- Open a pull request
+- Open a pull request for the fork

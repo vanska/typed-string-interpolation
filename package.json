@@ -1,6 +1,7 @@
 {
   "name": "typed-string-interpolation",
   "description": "String interpolation with correct return type based on passed variable substitutions",
+  "author": "Mikko Vänskä",
   "license": "MIT",
   "version": "0.0.2",
   "main": "dist/index.js",
@@ -10,13 +11,22 @@
   "keywords": [
     "string",
     "interpolation",
+    "substitution",
+    "injection",
     "replace",
+    "inject",
+    "substitute",
+    "interpolate",
     "variable",
     "variables",
     "type",
     "typed",
     "infer",
-    "type-safe"
+    "type-safe",
+    "i18n",
+    "l10n",
+    "i18next",
+    "formatjs"
   ],
   "scripts": {
     "lint": "tsc",
@@ -26,7 +36,8 @@
     "test:unit:types:watch": "jest -c jest.config.tsd.js --watch",
     "test": "npm run test:unit && npm run test:unit:types",
     "build": "tsup src/index.ts --format cjs,esm --dts",
-    "release": "npm run build && changeset publish"
+    "release": "npm run build && changeset publish",
+    "changeset": "changeset"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
