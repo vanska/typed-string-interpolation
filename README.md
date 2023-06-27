@@ -10,16 +10,20 @@
 - Options to customize return, pattern matching and sanity checking
 - Both ES Module `.mjs` and CommonJS `.cjs` distributions available. Use anywhere!
 - Tiny footprint:
-  - ES Module: `0.462kB` (`773B` unpacked)
-  - CommonJS: `0.833B` (`1.75kB` unpacked)
+  - ES Module: `0.46kB` (`0.77kB` unpacked)
+  - CommonJS: `0.83kB` (`1.75kB` unpacked)
 
 ## Motivation
 
-String interpolation/variable substitution (i.e. injecting variables within text) is a really common operation when building single and multilingual applications. Existing string interpolation utilities within the most used `i18n` / `l10n` packages like `i18next` and `formatjs` come with massive overhead while lacking thing like proper TypeScript infer support for the interpolation operation.
+String interpolation/variable substitution (i.e. injecting variables within text) is a really common operation when building single and multilingual applications. Existing string interpolation utilities within the most used `i18n` / `l10n` packages like `i18next` and `formatjs` come with massive overhead while lacking proper TypeScript infer support for the interpolation operation.
 
 This package aims to provide a high quality string interpolation "primitive" to use as is or within other localization frameworks and tooling.
 
 ## Getting started
+
+Easiest way to get started is to play around with a [React example sandbox](https://codesandbox.io/p/sandbox/typed-string-interpolation-react-example-slpjgp).
+
+> ℹ Note that the library itself is framework agnostic and could be used with anything.
 
 ### Install
 
@@ -36,35 +40,26 @@ import { stringInterpolation } from "typed-string-interpolation"
 const { stringInterpolation } = require("typed-string-interpolation")
 ```
 
+Returns a `string` when the result can be joined into a string.
+
 ```ts
 stringInterpolation("hello {{world}}", {
   world: "world",
 }) // "hello world"
 ```
 
-Pass in anything you want an get back sane results when interpolation result shouldn't be turned into a `string`:
+Returns an array when the result can't be joined into a `string`. This makes it really easy to use the utility with libraries like `react` or anything else.
 
 ```tsx
 stringInterpolation("hello {{world}} with {{anything}}", {
   world: "world",
-  anything: <span className="bold">anything</span>,
-})
-```
-
-Returns an array for easy use with libraries like `react` or anything else!
-
-```tsx
-const interpolationResult = [
-  "hello ",
-  "world",
-  " with ",
-  <span className="bold">anything</span>,
-]
+  anything: <strong>anything</strong>,
+}) // ["hello ", "world", " with ", <strong>anything</strong>]
 ```
 
 ## TypeScript support
 
-If the string can be joined you'll get back a string. Otherwise a union type within an array is returned based on the passed in variables.
+If the string can be joined you'll get back a `string` type. Otherwise a ` type within an array is returned based on the passed in variables.
 
 ```ts
 stringInterpolation("hello {{world}} with number {{number}}", {
@@ -75,7 +70,7 @@ stringInterpolation("hello {{world}} with number {{number}}", {
 
 ```tsx
 stringInterpolation("hello {{world}} with number {{number}}", {
-  world: <span className="bold">world</span>,
+  world: <strong>world</strong>,
   number: 1,
 }) // : (string | JSX.Element | number)[]
 ```
@@ -137,11 +132,11 @@ Turning of sanity checking removes `throw` from:
 
 ## Contributing
 
-Easiest way to contribute is to open new issues for API suggestions and fixes.
+Easiest way to contribute is to open new issues for API suggestions and bugs.
 
 ### Contributing for a release
 
-Basic steps for contributing for a release:
+Steps for contributing through a PR:
 
 - Fork `main` on Github and clone fork locally
 - `npm ci` to install dependencies
@@ -150,7 +145,7 @@ Basic steps for contributing for a release:
     - `npm run test:unit:watch`
   - Unit test for types in watch mode:
     - `npm run test:unit:types:watch`
-- Once all changes are complete create a new release with changeset. This creates a PR that once merged will get released.
+- Once all changes are complete create a new release with [changesets](https://github.com/changesets/changesets)
   - `npm run changeset`
-- Commit and push changes
-- Open a pull request for the fork
+- Commit and push changes to fork
+- Open a pull request against the fork
