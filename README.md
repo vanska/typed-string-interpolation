@@ -1,6 +1,6 @@
-# [`typed-string-interpolation`](https://www.npmjs.com/package/typed-string-interpolation)
+# `typed-string-interpolation`
 
-[String interpolation](https://en.wikipedia.org/wiki/String_interpolation) utility that returns the correct type based on passed in variable substitutions.
+[String interpolation](https://en.wikipedia.org/wiki/String_interpolation) utility that returns the correct `TypeScript` type based on passed in variables.
 
 ## Main features
 
@@ -15,9 +15,9 @@
 
 ## Motivation
 
-String interpolation/variable substitution (i.e. injecting variables within text) is a really common operation when building single and multilingual applications. Existing string interpolation utilities within the most used `i18n` / `l10n` packages like `i18next` and `formatjs` come with massive overhead while lacking proper TypeScript infer support for the interpolation operation.
+String interpolation/variable substitution (i.e. injecting variables within text) is a really common operation when building single and multilingual applications alike. Existing string interpolation utilities within the most used `i18n` / `l10n` packages like `i18next` and `formatjs` come with massive overhead while lacking proper TypeScript infer support for the interpolation operation.
 
-This package aims to provide a high quality string interpolation "primitive" to use as is or within other localization frameworks and tooling.
+This utility aims to provide a high quality string interpolation "primitive" to use as is or within other localization frameworks and tooling.
 
 ## Getting started
 
@@ -59,7 +59,7 @@ stringInterpolation("hello {{world}} with {{anything}}", {
 
 ## TypeScript support
 
-If the string can be joined you'll get back a `string` type. Otherwise a ` type within an array is returned based on the passed in variables.
+If the string can be joined you'll get back a `string` type. Otherwise a `union` type within an array is returned based on the passed in variables.
 
 ```ts
 stringInterpolation("hello {{world}} with number {{number}}", {
@@ -136,16 +136,15 @@ Easiest way to contribute is to open new issues for API suggestions and bugs.
 
 ### Contributing for a release
 
-Steps for contributing through a PR:
+Steps for contributing through a pull request:
 
 - Fork `main` on Github and clone fork locally
-- `npm ci` to install dependencies
-- Make changes while running tests
-  - Unit test in watch mode:
-    - `npm run test:unit:watch`
-  - Unit test for types in watch mode:
-    - `npm run test:unit:types:watch`
-- Once all changes are complete create a new release with [changesets](https://github.com/changesets/changesets)
+- Install dependencies
+  - `npm ci`
+- Make changes while running tests in watch mode
+  - `npm run test:unit:all:watch`
+- Once all changes are complete, create a new release with [changesets](https://github.com/changesets/changesets)
   - `npm run changeset`
 - Commit and push changes to fork
 - Open a pull request against the fork
+- If the PR needs changes before a merge to `main` can be made, push more changes to the fork until the PR is approved
