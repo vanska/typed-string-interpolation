@@ -1,5 +1,11 @@
 # typed-string-interpolation
 
+## 0.0.6
+
+### Patch Changes
+
+- 0c76def: Add concurrently and refined README
+
 ## 0.0.5
 
 ### Patch Changes
