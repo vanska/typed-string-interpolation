@@ -2,7 +2,7 @@
   "name": "typed-string-interpolation",
   "description": "String interpolation with correct return type based on passed variable substitutions",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
