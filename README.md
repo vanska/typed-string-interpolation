@@ -150,7 +150,7 @@ Basic steps for contributing for a release:
     - `npm run test:unit:watch`
   - Unit test for types in watch mode:
     - `npm run test:unit:types:watch`
-- Once all changes are complete create a new release with changeset
+- Once all changes are complete create a new release with changeset. This creates a PR that once merged will get released.
   - `npm run changeset`
 - Commit and push changes
 - Open a pull request for the fork
