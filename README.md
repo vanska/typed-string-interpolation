@@ -1,4 +1,4 @@
-# `typed-string-interpolation`
+# [`typed-string-interpolation`](https://www.npmjs.com/package/typed-string-interpolation)
 
 [String interpolation](https://en.wikipedia.org/wiki/String_interpolation) utility that returns the correct type based on passed in variable substitutions.
 

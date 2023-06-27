@@ -2,11 +2,15 @@
   "name": "typed-string-interpolation",
   "description": "String interpolation with correct return type based on passed variable substitutions",
   "author": "Mikko Vänskä",
+  "repository": "https://github.com/vanska/typed-string-interpolation",
   "license": "MIT",
   "version": "0.0.3",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
   "private": false,
   "keywords": [
     "string",
