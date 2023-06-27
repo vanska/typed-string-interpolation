@@ -2,6 +2,10 @@
 
 [String interpolation](https://en.wikipedia.org/wiki/String_interpolation) utility that returns the correct `TypeScript` type based on passed in variables.
 
+![Library in use with React](docs/cover.png)
+
+> Library used within a React app. Note that the library itself is framework agnostic and could be used in any TypeScript/JavaScript app.
+
 ## Main features
 
 - Replaces variables within a string with passed in variables
@@ -22,8 +26,6 @@ This utility aims to provide a high quality string interpolation "primitive" to 
 ## Getting started
 
 Easiest way to get started is to play around with a [React example sandbox](https://codesandbox.io/p/sandbox/typed-string-interpolation-react-example-slpjgp).
-
-> ℹ Note that the library itself is framework agnostic and could be used with anything.
 
 ### Install
 
