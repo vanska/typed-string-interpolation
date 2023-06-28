@@ -1,5 +1,11 @@
 # typed-string-interpolation
 
+## 0.0.7
+
+### Patch Changes
+
+- 4b9e63d: minification
+
 ## 0.0.6
 
 ### Patch Changes
