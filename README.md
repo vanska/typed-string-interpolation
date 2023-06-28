@@ -12,7 +12,7 @@
 - Sanity checks that correct variables were passed in
 - Returns the correct type based on passed in variable substitutions
 - Options to customize return, pattern matching and sanity checking
-- Both ES Module `.mjs` and CommonJS `.cjs` distributions available. Use anywhere!
+- Both ES Module and CommonJS distributions available. Use anywhere!
 - Tiny footprint:
   - ES Module: `0.46kB` (`0.77kB` unpacked)
   - CommonJS: `0.83kB` (`1.75kB` unpacked)
@@ -25,7 +25,7 @@ This utility aims to provide a high quality string interpolation "primitive" to 
 
 ## Getting started
 
-Easiest way to get started is to play around with a [React example sandbox](https://codesandbox.io/p/sandbox/typed-string-interpolation-react-example-slpjgp).
+Easiest way to get started is to play around with a [React example sandbox](https://codesandbox.io/p/sandbox/typed-string-interpolation-react-example-slpjgp?file=%2Fsrc%2Fmain.tsx).
 
 ### Install
 
@@ -45,18 +45,17 @@ const { stringInterpolation } = require("typed-string-interpolation")
 Returns a `string` when the result can be joined into a string.
 
 ```ts
-stringInterpolation("hello {{world}}", {
-  world: "world",
-}) // "hello world"
+stringInterpolation("You have {{n}} messages", {
+  n: 3,
+}) // "You have 3 messages"
 ```
 
 Returns an array when the result can't be joined into a `string`. This makes it really easy to use the utility with libraries like `react` or anything else.
 
 ```tsx
-stringInterpolation("hello {{world}} with {{anything}}", {
-  world: "world",
-  anything: <strong>anything</strong>,
-}) // ["hello ", "world", " with ", <strong>anything</strong>]
+stringInterpolation("You have {{n}} messages", {
+  n: <strong>3</strong>,
+}) // ["You have ", <strong>3</strong>, " messages"]
 ```
 
 ## TypeScript support
@@ -64,17 +63,17 @@ stringInterpolation("hello {{world}} with {{anything}}", {
 If the string can be joined you'll get back a `string` type. Otherwise a `union` type within an array is returned based on the passed in variables.
 
 ```ts
-stringInterpolation("hello {{world}} with number {{number}}", {
-  world: "world",
-  number: 1,
+stringInterpolation("You have {{n}} messages from {{person}}", {
+  n: 3,
+  person: "John",
 }) // : string
 ```
 
 ```tsx
-stringInterpolation("hello {{world}} with number {{number}}", {
-  world: <strong>world</strong>,
-  number: 1,
-}) // : (string | JSX.Element | number)[]
+stringInterpolation("You have {{n}} messages from {{person}}", {
+  n: <strong>3</strong>,
+  person: "John",
+}) // : (JSX.Element | string)[]
 ```
 
 ## Options
@@ -99,13 +98,13 @@ Return the raw interpolation results without joining to string when you want ful
 
 ```tsx
 stringInterpolation(
-  "hello {{world}} with number {{number}}",
+  "You have {{n}} messages from {{person}}",
   {
-    world: "world",
-    number: 1,
+    n: 3,
+    person: "John",
   },
   { raw: true }
-) // : (string | number)[]
+) // : (number | string)[]
 ```
 
 `pattern`
