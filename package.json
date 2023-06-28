@@ -40,7 +40,7 @@
     "test:unit:types:watch": "jest -c jest.config.tsd.js --watch",
     "test:unit:all:watch": "concurrently --raw \"npm run test:unit:watch\" \"npm run test:unit:types:watch\"",
     "test": "npm run test:unit && npm run test:unit:types",
-    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "build": "tsup src/index.ts --format cjs,esm --dts --minify",
     "release": "npm run build && changeset publish",
     "changeset": "changeset"
   },

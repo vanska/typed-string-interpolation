@@ -15,54 +15,73 @@ type StringInterpolationReturn<VariableValue extends any, OptionRaw> = Exclude<
 
 /**
  * Takes in a string containing variables and an object containing variables for interpolation. Accepts options.
+ * 
+ * @example
+ * 
+ * stringInterpolation("You have {{n}} messages", {
+      n: 3,
+  })
+
+  stringInterpolation("You have {{n}} messages from {{person}}", {
+      n: <strong>3</strong>,
+      person: "John",
+  })
  */
 export function stringInterpolation<
   VariableValue extends any,
   OptionRaw extends boolean | undefined
 >(
-  s: string,
-  v: Record<PropertyKey, VariableValue>,
+  string: string,
+  variables: Record<PropertyKey, VariableValue>,
   {
-    pattern: p = new RegExp(/\{{([^{]+)}}/g),
-    sanity: S = true,
-    raw: r = false,
+    pattern = new RegExp(/\{{([^{]+)}}/g),
+    sanity = true,
+    raw: rawOutput = false,
   }: StringInterpolationOptions<OptionRaw> = {}
 ): StringInterpolationReturn<VariableValue, OptionRaw> {
-  if (!s && S) throw "Empty string"
+  if (!string && sanity) throw "Empty string"
 
   // Find all variables within string
-  const sV = [...s.matchAll(p)]
+  const stringVariables = [...string.matchAll(pattern)]
 
   // No variables => no need to interpolate
-  if (!sV[0]) return s as StringInterpolationReturn<VariableValue, OptionRaw>
+  if (!stringVariables[0])
+    return string as StringInterpolationReturn<VariableValue, OptionRaw>
 
-  if (S) {
+  if (sanity) {
     // Sanity check string variables <-> passed in variables count
-    const k = Object.keys(v)
+    const variableKeys = Object.keys(variables)
     // Checks whether variables parsed from string exist in passed argument
-    if (sV.length !== k.length) throw "Variable count mismatch"
-    for (const _v of sV) {
-      const vIs = _v[1] // Variable in string
-      if (vIs && !k.includes(vIs)) throw `Variable '${vIs}' not found`
+    if (stringVariables.length !== variableKeys.length)
+      throw "Variable count mismatch"
+    for (const regExpMatchArray of stringVariables) {
+      const variable = regExpMatchArray[1]
+      if (variable && !variableKeys.includes(variable))
+        throw `Variable '${variable}' not found`
     }
   }
 
-  const raw = s
-    .split(p)
+  // Create raw interpolation result
+  const rawInterpolation = string
+    .split(pattern)
     // Trim empty string from array end (Could propably be done with regex as well)
     .filter(Boolean)
-    .map((_v) => {
-      return v[_v] ? v[_v] : _v
+    // Match parsed variables with passed in variables
+    .map((splitItem) => {
+      return variables[splitItem] ? variables[splitItem] : splitItem
     })
 
   // Checks if raw interpolation can be joined or not.
   // i.e. avoid printing [object Object | Array | Function | ...] within returned string.
-  const j = !raw.filter(
+  const canJoin = !rawInterpolation.filter(
     (i) => typeof i !== "string" && typeof i !== "number"
   )[0]
 
-  if (j && !r)
-    return raw.join("") as StringInterpolationReturn<VariableValue, OptionRaw>
+  if (canJoin && !rawOutput)
+    return rawInterpolation.join("") as StringInterpolationReturn<
+      VariableValue,
+      OptionRaw
+    >
 
-  return raw as StringInterpolationReturn<VariableValue, OptionRaw>
+  return rawInterpolation as StringInterpolationReturn<VariableValue, OptionRaw>
 }
