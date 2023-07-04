@@ -14,8 +14,8 @@
 - Options to customize return, pattern matching and sanity checking
 - Both ES Module and CommonJS distributions available. Use anywhere!
 - Tiny footprint:
-  - ES Module: `0.354kB` (`0.481kB` unpacked)
-  - CommonJS: `0.589kB` (`0.977kB` unpacked)
+  - ES Module: `0.379B` (`0.533B` unpacked)
+  - CommonJS: `0.612B` (`1.03kB` unpacked)
 
 ## Motivation
 
@@ -144,8 +144,14 @@ Steps for contributing through a pull request:
   - `npm ci`
 - Make changes while running tests in watch mode
   - `npm run test:unit:all:watch`
+  - This project has a `.vscode/launch.json` file containing configuration for running Jest tests with the VSCode debugger which makes it simple to step through logic excecution. Steps to use VSCode debugger:
+    - Add a breakpoint to the source code
+    - Open a Jest unit test file (`*.test.ts`)
+    - Go to the VSCode debugger Tab (`shift` + `command` + `D` on MacOS) and select "Jest Current File" or optionally start the debug session from the command line (`shift` + `command` + `P` on MacOS) and type "Debug: Start debugging"
+    - VSCode should open a new terminal window and attach the Jest instance to the debugger
+    - Debugger should stop on the defined breakpoint in the source code
 - Once all changes are complete, create a new release with [changesets](https://github.com/changesets/changesets)
-  - `npm run changeset`
+  - `npm run create-release`
 - Commit and push changes to fork
 - Open a pull request against the fork
 - If the PR needs changes before a merge to `main` can be made, push more changes to the fork until the PR is approved

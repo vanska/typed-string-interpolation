@@ -42,7 +42,7 @@
     "test": "npm run test:unit && npm run test:unit:types",
     "build": "tsup src/index.ts --format cjs,esm --dts --minify",
     "release": "npm run build && changeset publish",
-    "changeset": "changeset"
+    "create-release": "changeset"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

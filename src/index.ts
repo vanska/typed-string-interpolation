@@ -14,6 +14,21 @@ type StringInterpolationReturn<VariableValue extends any, OptionRaw> = Exclude<
   : (string | VariableValue)[]
 
 /**
+ * String.matchAll polyfill
+ * Used because no support in Safari <= 12
+ * @see https://caniuse.com/mdn-javascript_builtins_string_matchall
+ * @see https://stackoverflow.com/questions/58003217/how-to-use-the-string-prototype-matchall-polyfill
+ */
+function matchAllPolyfill(string: string, pattern: RegExp) {
+  let match
+  const matches = []
+
+  while ((match = pattern.exec(string))) matches.push(match)
+
+  return matches
+}
+
+/**
  * Takes in a string containing variables and an object containing variables for interpolation. Accepts options.
  * 
  * @example
@@ -42,7 +57,7 @@ export function stringInterpolation<
   if (!string && sanity) throw "Empty string"
 
   // Find all variables within string
-  const stringVariables = [...string.matchAll(pattern)]
+  const stringVariables = matchAllPolyfill(string, pattern)
 
   // No variables => no need to interpolate
   if (!stringVariables[0])
@@ -55,9 +70,9 @@ export function stringInterpolation<
     if (stringVariables.length !== variableKeys.length)
       throw "Variable count mismatch"
     for (const regExpMatchArray of stringVariables) {
-      const variable = regExpMatchArray[1]
-      if (variable && !variableKeys.includes(variable))
-        throw `Variable '${variable}' not found`
+      const variableKeyInString = regExpMatchArray[1]
+      if (variableKeyInString && !variableKeys.includes(variableKeyInString))
+        throw `Variable '${variableKeyInString}' not found`
     }
   }
 
