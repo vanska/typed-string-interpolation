@@ -1,5 +1,11 @@
 # typed-string-interpolation
 
+## 0.0.8
+
+### Patch Changes
+
+- 21fcfe9: Polyfill for String.matchAll
+
 ## 0.0.7
 
 ### Patch Changes
