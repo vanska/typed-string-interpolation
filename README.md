@@ -14,8 +14,8 @@
 - Options to customize return, pattern matching and sanity checking
 - Both ES Module and CommonJS distributions available. Use anywhere!
 - Tiny footprint:
-  - ES Module: `0.379B` (`0.533B` unpacked)
-  - CommonJS: `0.612B` (`1.03kB` unpacked)
+  - ES Module: `379B` (`533B` unpacked)
+  - CommonJS: `612B` (`1.03kB` unpacked)
 
 ## Motivation
 
