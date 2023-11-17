@@ -1,7 +1,6 @@
 import { stringInterpolation } from "../index"
 
 describe("stringInterpolation()", () => {
-  // Throws
   test("Empty", () => {
     expect(() => {
       stringInterpolation("", {
@@ -24,7 +23,6 @@ describe("stringInterpolation()", () => {
       })
     ).toThrow("Variable 'world' not found")
   })
-  // Succesful outputs
   test("Interpolate single variable", () => {
     expect(
       stringInterpolation("Hello {{world}}", {
@@ -43,7 +41,7 @@ describe("stringInterpolation()", () => {
       )
     ).toStrictEqual(["Hello ", "world with variable"])
   })
-  test.only("Interpolate two variables", () => {
+  test("Interpolate two variables", () => {
     expect(
       stringInterpolation("Hello {{world}} and {{anotherVariable}}", {
         world: "world with variable",

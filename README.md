@@ -1,6 +1,6 @@
 # `typed-string-interpolation`
 
-[String interpolation](https://en.wikipedia.org/wiki/String_interpolation) utility that returns the correct `TypeScript` type based on passed in variables.
+[String interpolation](https://en.wikipedia.org/wiki/String_interpolation) for `TypeScript` with correct return types based on passed in variables.
 
 ![Library in use with React](docs/cover.png)
 

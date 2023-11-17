@@ -63,3 +63,11 @@ expectType<
     },
   })
 )
+
+expectType<(string | number | Date)[]>(
+  stringInterpolation("hello {{one}} {{two}} {{three}}", {
+    one: "one",
+    two: 2,
+    three: new Date(),
+  })
+)
