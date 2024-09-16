@@ -1,5 +1,11 @@
 # typed-string-interpolation
 
+## 0.0.9
+
+### Patch Changes
+
+- f54f580: Throw Error objects
+
 ## 0.0.8
 
 ### Patch Changes
