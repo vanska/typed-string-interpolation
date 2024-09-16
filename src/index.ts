@@ -54,7 +54,7 @@ export function stringInterpolation<
     raw: rawOutput = false,
   }: StringInterpolationOptions<OptionRaw> = {}
 ): StringInterpolationReturn<VariableValue, OptionRaw> {
-  if (!string && sanity) throw "Empty string"
+  if (!string && sanity) throw new Error("Empty string")
 
   // Find all variables within string
   const stringVariables = matchAllPolyfill(string, pattern)
@@ -68,11 +68,11 @@ export function stringInterpolation<
     const variableKeys = Object.keys(variables)
     // Checks whether variables parsed from string exist in passed argument
     if (stringVariables.length !== variableKeys.length)
-      throw "Variable count mismatch"
+      throw new Error("Variable count mismatch")
     for (const regExpMatchArray of stringVariables) {
       const variableKeyInString = regExpMatchArray[1]
       if (variableKeyInString && !variableKeys.includes(variableKeyInString))
-        throw `Variable '${variableKeyInString}' not found`
+        throw new Error(`Variable '${variableKeyInString}' not found`)
     }
   }
 
