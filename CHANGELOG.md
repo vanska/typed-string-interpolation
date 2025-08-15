@@ -1,5 +1,11 @@
 # typed-string-interpolation
 
+## 0.0.10
+
+### Patch Changes
+
+- 445dd2c: Fixes issue #8 where variable keys were also replaced outside variables
+
 ## 0.0.9
 
 ### Patch Changes
