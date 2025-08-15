@@ -12,21 +12,6 @@ type StringInterpolationReturn<VariableValue extends any, OptionRaw> =
     : (string | VariableValue)[]
 
 /**
- * String.matchAll polyfill
- * Used because no support in Safari <= 12
- * @see https://caniuse.com/mdn-javascript_builtins_string_matchall
- * @see https://stackoverflow.com/questions/58003217/how-to-use-the-string-prototype-matchall-polyfill
- */
-function matchAllPolyfill(string: string, pattern: RegExp) {
-  let match
-  const matches = []
-
-  while ((match = pattern.exec(string))) matches.push(match)
-
-  return matches
-}
-
-/**
  * Takes in a string containing variables and an object containing variables for interpolation. Accepts options.
  * 
  * @example
@@ -54,59 +39,39 @@ export function stringInterpolation<
 ): StringInterpolationReturn<VariableValue, OptionRaw> {
   if (!string && sanity) throw new Error("Empty string")
 
-  // Find all variables within string
-  const stringVariables = matchAllPolyfill(string, pattern)
-
-  // No variables => no need to interpolate
-  if (!stringVariables[0])
-    return string as StringInterpolationReturn<VariableValue, OptionRaw>
-
-  if (sanity) {
-    // Sanity check string variables <-> passed in variables count
-    const variableKeys = Object.keys(variables)
-    // Checks whether variables parsed from string exist in passed argument
-    if (stringVariables.length !== variableKeys.length)
-      throw new Error("Variable count mismatch")
-    for (const regExpMatchArray of stringVariables) {
-      const variableKeyInString = regExpMatchArray[1]
-      if (variableKeyInString && !variableKeys.includes(variableKeyInString))
-        throw new Error(`Variable '${variableKeyInString}' not found`)
-    }
-  }
-
-  // Create raw interpolation result using match positions to avoid
-  // replacing plain text that happens to equal a variable name
   const rawInterpolation: (string | VariableValue)[] = []
   let lastIndex = 0
+  let matchCount = 0
+  let canJoin = true
+  const variableKeys = sanity ? Object.keys(variables) : undefined
 
-  for (const regExpMatchArray of stringVariables as RegExpExecArray[]) {
-    const matchIndex = regExpMatchArray.index ?? 0
-    const fullMatch = regExpMatchArray[0]
-    const variableKeyInString = regExpMatchArray[1]
+  let m: RegExpExecArray | null
+  while ((m = pattern.exec(string))) {
+    const idx = m.index || 0
+    const full = m[0]
+    const key = m[1]
 
-    // Push literal substring before the match
-    if (matchIndex > lastIndex) {
-      rawInterpolation.push(string.slice(lastIndex, matchIndex))
-    }
+    if (idx > lastIndex) rawInterpolation.push(string.slice(lastIndex, idx))
 
-    // Push the variable value for the matched key
-    rawInterpolation.push(
-      variables[variableKeyInString as unknown as PropertyKey],
-    )
+    if (sanity && key && !variableKeys!.includes(key))
+      throw new Error(`Variable '${key}' not found`)
 
-    lastIndex = matchIndex + fullMatch.length
+    const value = variables[key as unknown as PropertyKey]
+    if (canJoin && typeof value !== "string" && typeof value !== "number")
+      canJoin = false
+    rawInterpolation.push(value)
+
+    lastIndex = idx + full.length
+    matchCount++
   }
 
-  // Push any trailing literal substring after the last match
-  if (lastIndex < string.length) {
-    rawInterpolation.push(string.slice(lastIndex))
-  }
+  if (!matchCount)
+    return string as StringInterpolationReturn<VariableValue, OptionRaw>
 
-  // Checks if raw interpolation can be joined or not.
-  // i.e. avoid printing [object Object | Array | Function | ...] within returned string.
-  const canJoin = !rawInterpolation.filter(
-    (i) => typeof i !== "string" && typeof i !== "number",
-  )[0]
+  if (lastIndex < string.length) rawInterpolation.push(string.slice(lastIndex))
+
+  if (sanity && matchCount !== variableKeys!.length)
+    throw new Error("Variable count mismatch")
 
   if (canJoin && !rawOutput)
     return rawInterpolation.join("") as StringInterpolationReturn<

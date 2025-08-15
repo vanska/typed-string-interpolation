@@ -15,8 +15,8 @@
 - Options to customize return, pattern matching and sanity checking
 - Both ES Module and CommonJS distributions available. Use anywhere!
 - Tiny footprint:
-  - ES Module: `424B` Gzipped (`660B` unpacked)
-  - CommonJS: `660B` Gzipped (`1.13kB` unpacked)
+  - ES Module: `396B` Gzipped (`572B` unpacked)
+  - CommonJS: `634B` Gzipped (`1.04kB` unpacked)
 
 ## Motivation
 
@@ -60,6 +60,11 @@ stringInterpolation("You have {{n}} messages", {
   n: <strong>3</strong>,
 }) // ["You have ", <strong>3</strong>, " messages"]
 ```
+
+For more example use cases, see the unit test files in the repository:
+
+- [Unit tests for library logic](src/__tests__/stringInterpolation.test.ts)
+- [Unit tests for inferred Typescript types](src/__typetests__/stringInterpolation.test.ts)
 
 ## TypeScript support
 
@@ -115,7 +120,19 @@ stringInterpolation(
 Provide your own `RegExp` pattern for variable matching. Must be defined as:
 
 ```ts
-pattern: new RegExp(/\{{([^{]+)}}/g)
+pattern: new RegExp(/\{{([^{]+)}}/g) // Default
+```
+
+Example alternative pattern:
+
+```ts
+stringInterpolation(
+  "Hi %{name}",
+  { name: "John" },
+  {
+    pattern: /%\{([^}]+)\}/g,
+  },
+),
 ```
 
 `sanity`
