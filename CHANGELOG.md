@@ -1,5 +1,11 @@
 # typed-string-interpolation
 
+## 0.0.11
+
+### Patch Changes
+
+- d7ac55f: Library weight reduction
+
 ## 0.0.10
 
 ### Patch Changes
