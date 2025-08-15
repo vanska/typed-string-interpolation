@@ -1,35 +1,35 @@
-import { stringInterpolation } from "../index"
+import { stringInterpolation } from "../index";
 
 describe("stringInterpolation()", () => {
   test("Empty", () => {
     expect(() => {
       stringInterpolation("", {
         world: "world",
-      })
-    }).toThrow("Empty string")
-  })
+      });
+    }).toThrow("Empty string");
+  });
   test("Incorrect variable count", () => {
     expect(() => {
       stringInterpolation("Hello {{world}}", {
         world: "world with varialbe",
         extraVariable: "this is unnecessary",
-      })
-    }).toThrow("Variable count mismatch")
-  })
+      });
+    }).toThrow("Variable count mismatch");
+  });
   test("Variable not found", () => {
     expect(() =>
       stringInterpolation("Hello {{world}}", {
         wrongVariable: "world",
       })
-    ).toThrow("Variable 'world' not found")
-  })
+    ).toThrow("Variable 'world' not found");
+  });
   test("Interpolate single variable", () => {
     expect(
       stringInterpolation("Hello {{world}}", {
         world: "world with variable",
       })
-    ).toBe("Hello world with variable")
-  })
+    ).toBe("Hello world with variable");
+  });
   test("Interpolate single variable and return raw result with passed in option", () => {
     expect(
       stringInterpolation(
@@ -39,16 +39,16 @@ describe("stringInterpolation()", () => {
         },
         { raw: true }
       )
-    ).toStrictEqual(["Hello ", "world with variable"])
-  })
+    ).toStrictEqual(["Hello ", "world with variable"]);
+  });
   test("Interpolate two variables", () => {
     expect(
       stringInterpolation("Hello {{world}} and {{anotherVariable}}", {
         world: "world with variable",
         anotherVariable: "another variable",
       })
-    ).toBe("Hello world with variable and another variable")
-  })
+    ).toBe("Hello world with variable and another variable");
+  });
   test("Interpolation variable contains a function", () => {
     expect(
       stringInterpolation("Hello {{world}} and {{anotherVariable}}", {
@@ -60,6 +60,11 @@ describe("stringInterpolation()", () => {
       "world with variable",
       " and ",
       expect.any(Function),
-    ])
-  })
-})
+    ]);
+  });
+  test("Interpolation string contains a variable name which should remain the same", () => {
+    expect(stringInterpolation("foo{{foo}}", { foo: "bar" })).toStrictEqual(
+      "foobar" // todo: fix - returns "barbar"
+    );
+  });
+});

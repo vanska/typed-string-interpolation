@@ -76,15 +76,33 @@ export function stringInterpolation<
     }
   }
 
-  // Create raw interpolation result
-  const rawInterpolation = string
-    .split(pattern)
-    // Trim empty string from array end (Could propably be done with regex as well)
-    .filter(Boolean)
-    // Match parsed variables with passed in variables
-    .map((splitItem) => {
-      return variables[splitItem] ? variables[splitItem] : splitItem
-    })
+  // Create raw interpolation result using match positions to avoid
+  // replacing plain text that happens to equal a variable name
+  const rawInterpolation: (string | VariableValue)[] = []
+  let lastIndex = 0
+
+  for (const regExpMatchArray of stringVariables as RegExpExecArray[]) {
+    const matchIndex = regExpMatchArray.index ?? 0
+    const fullMatch = regExpMatchArray[0]
+    const variableKeyInString = regExpMatchArray[1]
+
+    // Push literal substring before the match
+    if (matchIndex > lastIndex) {
+      rawInterpolation.push(string.slice(lastIndex, matchIndex))
+    }
+
+    // Push the variable value for the matched key
+    rawInterpolation.push(
+      variables[variableKeyInString as unknown as PropertyKey]
+    )
+
+    lastIndex = matchIndex + fullMatch.length
+  }
+
+  // Push any trailing literal substring after the last match
+  if (lastIndex < string.length) {
+    rawInterpolation.push(string.slice(lastIndex))
+  }
 
   // Checks if raw interpolation can be joined or not.
   // i.e. avoid printing [object Object | Array | Function | ...] within returned string.
