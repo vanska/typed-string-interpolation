@@ -1,5 +1,11 @@
 # typed-string-interpolation
 
+## 0.0.12
+
+### Patch Changes
+
+- bf8aa65: Even smaller library weight
+
 ## 0.0.11
 
 ### Patch Changes
