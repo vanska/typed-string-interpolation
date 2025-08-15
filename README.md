@@ -9,19 +9,20 @@
 ## Main features
 
 - Replaces variables within a string with passed in variables
+- Dead simple syntax for working with translators
 - Sanity checks that correct variables were passed in
 - Returns the correct type based on passed in variable substitutions
 - Options to customize return, pattern matching and sanity checking
 - Both ES Module and CommonJS distributions available. Use anywhere!
 - Tiny footprint:
-  - ES Module: `379B` (`533B` unpacked)
-  - CommonJS: `612B` (`1.03kB` unpacked)
+  - ES Module: `424B` Gzipped (`660B` unpacked)
+  - CommonJS: `660B` Gzipped (`1.13kB` unpacked)
 
 ## Motivation
 
-String interpolation/variable substitution (i.e. injecting variables within text) is a really common operation when building single and multilingual applications alike. Existing string interpolation utilities within the most used `i18n` / `l10n` packages like `i18next` and `formatjs` come with massive overhead while lacking proper TypeScript infer support for the interpolation operation.
+String interpolation/variable substitution (i.e. injecting variables within text) is a really common operation when building single and multilingual applications alike. Existing string interpolation utilities within the most used `i18n` / `l10n` packages like `i18next` and `formatjs` come with massive overhead while lacking proper TypeScript infer support for the interpolation operation. The string syntax for many common libraries and approaches also seem overly complex and hard to understand.
 
-This utility aims to provide a high quality string interpolation "primitive" to use as is or within other localization frameworks and tooling.
+This utility aims to provide a high quality string interpolation "primitive" to use as is or within other localization frameworks and tooling that is as easy as possible to understand for both developers and translators.
 
 ## Getting started
 
@@ -32,6 +33,8 @@ Easiest way to get started is to play around with a [React example sandbox](http
 ```bash
 npm i typed-string-interpolation
 ```
+
+> [`typed-string-interpolation` package @ NPM](https://www.npmjs.com/package/typed-string-interpolation)
 
 ### Usage
 
@@ -103,7 +106,7 @@ stringInterpolation(
     n: 3,
     person: "John",
   },
-  { raw: true }
+  { raw: true },
 ) // : (number | string)[]
 ```
 
@@ -150,7 +153,7 @@ Steps for contributing through a pull request:
     - Go to the VSCode debugger Tab (`shift` + `command` + `D` on MacOS) and select "Jest Current File" or optionally start the debug session from the command line (`shift` + `command` + `P` on MacOS) and type "Debug: Start debugging"
     - VSCode should open a new terminal window and attach the Jest instance to the debugger
     - Debugger should stop on the defined breakpoint in the source code
-- Once all changes are complete, create a new release with [changesets](https://github.com/changesets/changesets)
+- Once all changes are complete, create a new release with [changesets](https://github.com/changesets/changesets). (Note that this command also formats the code with the style rules of the repository).
   - `npm run create-release`
 - Commit and push changes to fork
 - Open a pull request against the fork

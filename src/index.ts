@@ -4,14 +4,12 @@ type StringInterpolationOptions<Raw extends boolean | undefined> = {
   raw?: Raw
 }
 
-type StringInterpolationReturn<VariableValue extends any, OptionRaw> = Exclude<
-  VariableValue,
-  string | number
-> extends never
-  ? Extract<OptionRaw, boolean> extends true
-    ? (string | VariableValue)[]
-    : string
-  : (string | VariableValue)[]
+type StringInterpolationReturn<VariableValue extends any, OptionRaw> =
+  Exclude<VariableValue, string | number> extends never
+    ? Extract<OptionRaw, boolean> extends true
+      ? (string | VariableValue)[]
+      : string
+    : (string | VariableValue)[]
 
 /**
  * String.matchAll polyfill
@@ -44,7 +42,7 @@ function matchAllPolyfill(string: string, pattern: RegExp) {
  */
 export function stringInterpolation<
   VariableValue extends any,
-  OptionRaw extends boolean | undefined
+  OptionRaw extends boolean | undefined,
 >(
   string: string,
   variables: Record<PropertyKey, VariableValue>,
@@ -52,7 +50,7 @@ export function stringInterpolation<
     pattern = new RegExp(/\{{([^{]+)}}/g),
     sanity = true,
     raw: rawOutput = false,
-  }: StringInterpolationOptions<OptionRaw> = {}
+  }: StringInterpolationOptions<OptionRaw> = {},
 ): StringInterpolationReturn<VariableValue, OptionRaw> {
   if (!string && sanity) throw new Error("Empty string")
 
@@ -93,7 +91,7 @@ export function stringInterpolation<
 
     // Push the variable value for the matched key
     rawInterpolation.push(
-      variables[variableKeyInString as unknown as PropertyKey]
+      variables[variableKeyInString as unknown as PropertyKey],
     )
 
     lastIndex = matchIndex + fullMatch.length
@@ -107,7 +105,7 @@ export function stringInterpolation<
   // Checks if raw interpolation can be joined or not.
   // i.e. avoid printing [object Object | Array | Function | ...] within returned string.
   const canJoin = !rawInterpolation.filter(
-    (i) => typeof i !== "string" && typeof i !== "number"
+    (i) => typeof i !== "string" && typeof i !== "number",
   )[0]
 
   if (canJoin && !rawOutput)
