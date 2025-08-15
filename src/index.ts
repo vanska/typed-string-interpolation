@@ -32,52 +32,52 @@ export function stringInterpolation<
   string: string,
   variables: Record<PropertyKey, VariableValue>,
   {
-    pattern = new RegExp(/\{{([^{]+)}}/g),
+    pattern = /\{{([^{]+)}}/g,
     sanity = true,
-    raw: rawOutput = false,
+    raw = false,
   }: StringInterpolationOptions<OptionRaw> = {},
 ): StringInterpolationReturn<VariableValue, OptionRaw> {
   if (!string && sanity) throw new Error("Empty string")
 
-  const rawInterpolation: (string | VariableValue)[] = []
-  let lastIndex = 0
-  let matchCount = 0
-  let canJoin = true
   const variableKeys = sanity ? Object.keys(variables) : undefined
+  const segments: (string | VariableValue)[] = []
+  let lastIndex = 0
+  let foundCount = 0
+  let joinable = true
 
   let m: RegExpExecArray | null
   while ((m = pattern.exec(string))) {
-    const idx = m.index || 0
+    const idx = m.index
     const full = m[0]
     const key = m[1]
 
-    if (idx > lastIndex) rawInterpolation.push(string.slice(lastIndex, idx))
+    if (idx > lastIndex) segments.push(string.slice(lastIndex, idx))
 
     if (sanity && key && !variableKeys!.includes(key))
       throw new Error(`Variable '${key}' not found`)
 
     const value = variables[key as unknown as PropertyKey]
-    if (canJoin && typeof value !== "string" && typeof value !== "number")
-      canJoin = false
-    rawInterpolation.push(value)
+    joinable =
+      joinable && (typeof value === "string" || typeof value === "number")
+    segments.push(value)
 
     lastIndex = idx + full.length
-    matchCount++
+    foundCount++
   }
 
-  if (!matchCount)
+  if (!foundCount)
     return string as StringInterpolationReturn<VariableValue, OptionRaw>
 
-  if (lastIndex < string.length) rawInterpolation.push(string.slice(lastIndex))
+  if (lastIndex < string.length) segments.push(string.slice(lastIndex))
 
-  if (sanity && matchCount !== variableKeys!.length)
+  if (sanity && foundCount !== variableKeys!.length)
     throw new Error("Variable count mismatch")
 
-  if (canJoin && !rawOutput)
-    return rawInterpolation.join("") as StringInterpolationReturn<
+  if (joinable && !raw)
+    return segments.join("") as StringInterpolationReturn<
       VariableValue,
       OptionRaw
     >
 
-  return rawInterpolation as StringInterpolationReturn<VariableValue, OptionRaw>
+  return segments as StringInterpolationReturn<VariableValue, OptionRaw>
 }

@@ -15,8 +15,8 @@
 - Options to customize return, pattern matching and sanity checking
 - Both ES Module and CommonJS distributions available. Use anywhere!
 - Tiny footprint:
-  - ES Module: `396B` Gzipped (`572B` unpacked)
-  - CommonJS: `634B` Gzipped (`1.04kB` unpacked)
+  - ES Module: `383B` Gzipped (`553B` unpacked)
+  - CommonJS: `623B` Gzipped (`1.02kB` unpacked)
 
 ## Motivation
 
@@ -95,7 +95,7 @@ stringInterpolation(str, variables, options)
 ```ts
 type Options = {
   raw?: boolean // default: false
-  pattern?: RegExp // default: new RegExp(/\{{([^{]+)}}/g)
+  pattern?: RegExp // default: /\{{([^{]+)}}/g
   sanity?: boolean // default: true
 }
 ```
@@ -120,7 +120,7 @@ stringInterpolation(
 Provide your own `RegExp` pattern for variable matching. Must be defined as:
 
 ```ts
-pattern: new RegExp(/\{{([^{]+)}}/g) // Default
+pattern: /\{{([^{]+)}}/g // Default
 ```
 
 Example alternative pattern:
