@@ -1,5 +1,11 @@
 # typed-string-interpolation
 
+## 0.0.13
+
+### Patch Changes
+
+- 01abfb7: fix: respect closest closing brackets (#14)
+
 ## 0.0.12
 
 ### Patch Changes
