@@ -95,7 +95,7 @@ stringInterpolation(str, variables, options)
 ```ts
 type Options = {
   raw?: boolean // default: false
-  pattern?: RegExp // default: /\{{([^{]+)}}/g
+  pattern?: RegExp // default: /\{\{([^}]+)\}\}/g
   sanity?: boolean // default: true
 }
 ```

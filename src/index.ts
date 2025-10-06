@@ -32,7 +32,7 @@ export function stringInterpolation<
   string: string,
   variables: Record<PropertyKey, VariableValue>,
   {
-    pattern = /\{{([^{]+)}}/g,
+    pattern = /\{\{([^}]+)\}\}/g,
     sanity = true,
     raw = false,
   }: StringInterpolationOptions<OptionRaw> = {},

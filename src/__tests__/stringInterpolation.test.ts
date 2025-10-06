@@ -133,4 +133,11 @@ describe("stringInterpolation()", () => {
       stringInterpolation("Hello {{world}}", {} as any, { sanity: false }),
     ).toStrictEqual(["Hello ", undefined])
   })
+  test("Respect the closest closing brackets", () => {
+    expect(
+      stringInterpolation('{"someKey":{"anotherKey":"{{valueToChange}}"}}', {
+        valueToChange: 10,
+      }),
+    ).toBe('{"someKey":{"anotherKey":"10"}}')
+  })
 })
